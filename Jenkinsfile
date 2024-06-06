@@ -30,7 +30,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'dependency-check-report/*', allowEmptyArchive: true
-            dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            dependencyCheckPublisher pattern: 'dependency-check-report/dependency-check-report.xml'
         }
     }
 }
