@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sh '''
                     mkdir -p dependency-check-report
-                    dependency-check.sh --project "JenkinsDependencyCheckTest" --scan . --format "ALL" --out dependency-check-report
+                    dependency-check.sh --project "JenkinsDependencyCheckTest" --scan . --format "ALL" --out dependency-check-report --suppression suppression.xml
                 '''
             }
         }
