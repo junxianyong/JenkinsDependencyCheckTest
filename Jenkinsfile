@@ -2,13 +2,13 @@ pipeline {
     agent any
     
     tools {
-        dependencyCheck 'OWASP_Dependency-Check_Vulnerabilities'
+        'dependency-check' 'OWASP_Dependency-Check_Vulnerabilities'
     }
     
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/0xprime/JenkinsDependencyCheckTest'
+                git 'https://github.com/junxianyong/JenkinsDependencyCheckTest'
             }
         }
         
@@ -21,7 +21,7 @@ pipeline {
         
         stage('Dependency Check') {
             steps {
-                dependencyCheck additionalArguments: '--format HTML'
+                dependencyCheckAnalyzer odcInstallation: 'OWASP_Dependency-Check_Vulnerabilities', additionalArguments: '--format HTML'
             }
         }
     }
