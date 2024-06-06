@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        'dependency-check' 'OWASP_Dependency-Check_Vulnerabilities'
+        'dependency-check' 'DP-Check'
     }
     
     stages {
@@ -21,7 +21,7 @@ pipeline {
         
         stage('Dependency Check') {
             steps {
-                dependencyCheckAnalyzer odcInstallation: 'OWASP_Dependency-Check_Vulnerabilities', additionalArguments: '--format HTML'
+                dependencyCheckAnalyzer odcInstallation: 'DP-Check', additionalArguments: '--format HTML'
             }
         }
     }
