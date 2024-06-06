@@ -14,21 +14,22 @@ pipeline {
         
         stage('Build') {
             steps {
-                // Assuming there is no build step needed, as there is no build tool specified
                 echo 'No build step needed'
             }
         }
         
         stage('Dependency Check') {
             steps {
-                dependencyCheckAnalyzer odcInstallation: 'DP-Check', additionalArguments: '--format HTML'
+                sh '''
+                    dependency-check.sh --project "JenkinsDependencyCheckTest" --scan . --format "ALL" --out dependency-check-report
+                '''
             }
         }
     }
     
     post {
         always {
-            archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'dependency-check-report/*', allowEmptyArchive: true
             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
         }
     }
