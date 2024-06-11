@@ -6,6 +6,10 @@ pipeline {
         'dependency-check' 'DP-Check' // Correct tool type for OWASP Dependency Check
     }
     
+    environment {
+        NVD_API_KEY = credentials('nvd') // Assuming you stored the API key in Jenkins Credentials
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -15,7 +19,7 @@ pipeline {
         
         stage('OWASP DependencyCheck') {
             steps {
-                dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--format HTML --format XML --nvd-apiKey $NVD_API_KEY', odcInstallation: 'DP-Check'
             }
         }
     }
