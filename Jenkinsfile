@@ -1,37 +1,21 @@
 pipeline {
-    agent any
-    
-    tools {
-        'dependency-check' 'DP-Check'
-    }
-    
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/junxianyong/JenkinsDependencyCheckTest'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                echo 'No build step needed'
-            }
-        }
-        
-        stage('Dependency Check') {
-            steps {
-                sh '''
-                    mkdir -p dependency-check-report
-                    dependency-check.sh --project "JenkinsDependencyCheckTest" --scan . --format "ALL" --out dependency-check-report --suppression suppression.xml
-                '''
-            }
-        }
-    }
-    
-    post {
-        always {
-            archiveArtifacts artifacts: 'dependency-check-report/*', allowEmptyArchive: true
-            dependencyCheckPublisher pattern: 'dependency-check-report/dependency-check-report.xml'
-        }
-    }
+	agent any
+	stages {
+		stage('Checkout SCM') {
+			steps {
+				git '/home/JenkinsDependencyCheckTest'
+			}
+		}
+
+		stage('OWASP DependencyCheck') {
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+			}
+		}
+	}	
+	post {
+		success {
+			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+		}
+	}
 }
