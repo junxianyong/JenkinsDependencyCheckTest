@@ -7,7 +7,7 @@ pipeline {
     }
     
     environment {
-        NVD_API_KEY = credentials('nvd-api-key-id') // Assuming you stored the API key in Jenkins Credentials
+        NVD_API_KEY = credentials('nvd') // Assuming you stored the API key in Jenkins Credentials
     }
     
     stages {
