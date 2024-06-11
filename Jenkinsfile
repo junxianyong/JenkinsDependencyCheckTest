@@ -7,7 +7,7 @@ pipeline {
     }
     
     environment {
-        NVD_API_KEY = credentials('nvd') // Assuming you stored the API key in Jenkins Credentials
+        NVD_API_KEY = credentials('nvd-api-key-id') // Assuming you stored the API key in Jenkins Credentials
     }
     
     stages {
@@ -19,7 +19,7 @@ pipeline {
         
         stage('OWASP DependencyCheck') {
             steps {
-                dependencyCheck additionalArguments: '--format HTML --format XML --nvd-apiKey $NVD_API_KEY', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--format HTML --format XML --nvdApiKey $NVD_API_KEY', odcInstallation: 'DP-Check'
             }
         }
     }
