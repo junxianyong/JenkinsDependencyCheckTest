@@ -3,6 +3,7 @@ pipeline {
     
     tools {
         git 'Default' // Ensure 'Default' is defined in Jenkins Global Tool Configuration
+        dependencyCheck 'DP-Check' // Ensure 'DP-Check' is defined in Jenkins Global Tool Configuration
     }
     
     stages {
