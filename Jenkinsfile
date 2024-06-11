@@ -3,7 +3,7 @@ pipeline {
     
     tools {
         git 'Default' // Ensure 'Default' is defined in Jenkins Global Tool Configuration
-        dependencyCheck 'DP-Check' // Ensure 'DP-Check' is defined in Jenkins Global Tool Configuration
+        'dependency-check' 'DP-Check' // Correct tool type for OWASP Dependency Check
     }
     
     stages {
