@@ -2,7 +2,8 @@ pipeline {
     agent any
     
     tools {
-        'dependency-check' 'DP-Check'
+        git 'Default' // Ensure 'Default' is defined in Jenkins Global Tool Configuration
+        dependencyCheck 'DP-Check' // Ensure 'DP-Check' is defined in Jenkins Global Tool Configuration
     }
     
     stages {
@@ -13,14 +14,15 @@ pipeline {
         }
         
         stage('OWASP DependencyCheck') {
-			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
-			}
-		}
-	}	
-	post {
-		success {
-			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-		}
-	}
+            steps {
+                dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'DP-Check'
+            }
+        }
+    }
+    
+    post {
+        success {
+            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+        }
+    }
 }
