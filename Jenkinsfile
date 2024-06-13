@@ -19,7 +19,7 @@ pipeline {
         
         stage('OWASP DependencyCheck') {
             steps {
-                dependencyCheck additionalArguments: '--format HTML --format XML --nvdApiKey $NVD_API_KEY', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental', odcInstallation: 'DP-Check'
             }
         }
     }
