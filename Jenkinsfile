@@ -19,7 +19,7 @@ pipeline {
 
         stage('OWASP DependencyCheck') {
             steps {
-                dependencyCheck additionalArguments: '--scan . --project "Dependency Check Test Project" --format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental --disablePyDist', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--scan . --project "Dependency Check Test Project" --format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental --disableOssIndex', odcInstallation: 'DP-Check'
                 archiveArtifacts artifacts: 'dependency-check-report.html, dependency-check-report.xml'
             }
         }
