@@ -19,7 +19,15 @@ pipeline {
 
         stage('OWASP DependencyCheck') {
             steps {
-                dependencyCheck additionalArguments: '--format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental --disableRetireJS --disableSonatype --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental', odcInstallation: 'DP-Check'
+            }
+        }
+
+        stage('Safety Check') {
+            steps {
+                sh 'pip install safety'
+                sh 'safety check -r requirements.txt --full-report > safety-report.txt'
+                archiveArtifacts artifacts: 'safety-report.txt'
             }
         }
     }
@@ -27,6 +35,9 @@ pipeline {
     post {
         success {
             dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+        }
+        always {
+            archiveArtifacts artifacts: '**/dependency-check-report.html'
         }
     }
 }
