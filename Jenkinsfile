@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     tools {
-        git 'Default' // Ensure 'Default' is defined in Jenkins Global Tool Configuration
-        'dependency-check' 'DP-Check' // Correct tool type for OWASP Dependency Check
+        git 'Default'
+        dependencyCheck 'DP-Check'
     }
 
     environment {
-        NVD_API_KEY = credentials('nvd') // Assuming you stored the API key in Jenkins Credentials
+        NVD_API_KEY = credentials('nvd')
     }
 
     stages {
@@ -17,8 +17,20 @@ pipeline {
             }
         }
 
+        stage('Verify Dependency Check Installation') {
+            steps {
+                // Verify the tool installation directory and permissions
+                sh 'ls -l /var/jenkins_home/tools/org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation/dependency-check'
+                sh 'which dependency-check.sh' // Verify the tool is in the PATH
+            }
+        }
+
         stage('OWASP DependencyCheck') {
             steps {
+                // Add debug information to check environment variables and paths
+                sh 'env'
+                sh 'dependency-check.sh --version'
+
                 dependencyCheck additionalArguments: '--scan . --project "Dependency Check Test Project" --format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental --disableOssIndex', odcInstallation: 'DP-Check'
                 archiveArtifacts artifacts: 'dependency-check-report.html, dependency-check-report.xml'
             }
