@@ -31,7 +31,7 @@ pipeline {
                 sh 'env'
                 sh 'dependency-check.sh --version'
 
-                dependencyCheck additionalArguments: '--scan . --project "Dependency Check Test Project" --format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental --disableOssIndex', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--scan . --project "Dependency Check Test Project" --format HTML --format XML --nvdApiKey $NVD_API_KEY --enableExperimental --disableOssIndex --out .', odcInstallation: 'DP-Check'
                 archiveArtifacts artifacts: 'dependency-check-report.html, dependency-check-report.xml'
             }
         }
