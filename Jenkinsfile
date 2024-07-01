@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         git 'Default'
-        dependencyCheck 'DP-Check'
+        'org.jenkinsci.plugins.DependencyCheck.tools.DependencyCheckInstallation' 'DP-Check'
     }
 
     environment {
